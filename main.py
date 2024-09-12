@@ -6,7 +6,7 @@
 # while len(word) != 5:
 #   word = english[random.randint(0,len(english)-1)]
 # print(word)
-
+from enum import Enum
 import random, time
 
 attempts = 0
