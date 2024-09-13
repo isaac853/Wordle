@@ -14,24 +14,23 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 list = ["_","_","_","_","_"]
 wrongletters = []
 
-wordlist = ["daddy"]
-
+wordlist = ["daddy","steel","","","","","","",]
 word = wordlist[random.randint(0,len(wordlist)-1)]
 
 print("how to play:")
 print("------------------------------------------------------")
-print("guess the 5 letter word in 6 attemmpts or under")
+print("guess the 5 letter word in 6 attempts or under")
 print("")
 
-time.sleep(1)
+time.sleep(2)
 print("if a letter in the player's guess is in the word and in the correct place, it will be capitalised ")
 print("")
 
-time.sleep(1)
+time.sleep(2)
 print("if a letter in the player's guess is in the word, but the incorrect place it will be shown in lower case")
 print("")
 
-time.sleep(1)
+time.sleep(2)
 print("if a letter in the player's guess is not in the word, it will be placed aside")
 print("------------------------------------------------------")
 print("")
@@ -76,17 +75,21 @@ while attempts != 6:
                 ["","","","",""], #playerguess goes here
                 ["0","0","0","0","0"]] #type of correlation between playerguess and words letter, 0 = not in the word, 1 = in the word but in wrong place, 2 in the word and in the right place
 
+
+# assign word to line 0 of array and guess to line 2
   for i in range(len(word)):
     statuscheck[0][i] = word[i]
 
     statuscheck[2][i] = playerguess[i]
 
 
+# initial check for each letter of the guess, for if the guess directly matches the letter in that spot
   for i in range(len(playerguess)):
     if playerguess[i] == word[i]:
         statuscheck[1][i] = "1"
         statuscheck[3][i] = "2"
 
+# for each currently unused letter of the guess, check every letter in the word for if it matches and has not been used yet
   for i in range(len(playerguess)):
     for j in range(len(word)):
       if playerguess[i] == word[j] and statuscheck[1][j] == "0" and statuscheck[3][i] != "2":
@@ -94,11 +97,13 @@ while attempts != 6:
         statuscheck[3][i] = "1"
         break
 
+# any letters in the guess that aren't in the word added to list
   for i in range(len(playerguess)):
     
     if playerguess[i] not in word and playerguess[i] not in wrongletters:
       wrongletters.append(playerguess[i])
 
+#construct an output using the letters and their assignments
   for i in range(len(playerguess)):
 
     if statuscheck[3][i] == "2":
@@ -111,7 +116,7 @@ while attempts != 6:
     if statuscheck[3][i] == "0":
       list[i] = "_"
   
-  print("")
+  
   if len(wrongletters) == 0:
       print(list, "currently known wrong letters: none")
 
@@ -126,6 +131,7 @@ while attempts != 6:
   
   else:
     print("try again")
+    print("")
     attempts += 1
 
   if attempts == 6: 
