@@ -7,15 +7,23 @@
 #   word = english[random.randint(0,len(english)-1)]
 # print(word)
 
-import random, time
+import random, time, urllib.request,json
+
+
+
+
 
 attempts = 0
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 list = ["_","_","_","_","_"]
 wrongletters = []
 
-wordlist = ["daddy","steel"]
-word = wordlist[random.randint(0,len(wordlist)-1)]
+#read an api containing a five letter word and assign it to wordpull
+with urllib.request.urlopen('https://random-word-api.herokuapp.com/word?length=5') as response:
+   wordpull = response.read()
+
+#parse word from json file to make readable
+word = json.loads(wordpull)[0]
 
 print("how to play:")
 print("------------------------------------------------------")
@@ -50,6 +58,13 @@ while attempts != 6:
     print("")
     
     valid = True
+
+#backdoor to find word while testing
+    if playerguess == "joshua":
+      print(word)
+      continue
+
+
 
 #length check
 
@@ -131,11 +146,13 @@ while attempts != 6:
   
   else:
     print("try again")
-    print("")
     attempts += 1
+    print("number of guesses:" , attempts)
+    print("")
 
   if attempts == 6: 
     print("you stink, game over")
+    print("the word was:" , word)
     break
     
     
