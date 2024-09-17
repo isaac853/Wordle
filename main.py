@@ -14,7 +14,7 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 list = ["_","_","_","_","_"]
 wrongletters = []
 
-wordlist = ["daddy","steel","","","","","","",]
+wordlist = ["daddy","steel"]
 word = wordlist[random.randint(0,len(wordlist)-1)]
 
 print("how to play:")
