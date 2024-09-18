@@ -6,13 +6,31 @@
 # while len(word) != 5:
 #   word = english[random.randint(0,len(english)-1)]
 # print(word)
-
+from urllib.error import HTTPError
+from urllib.request import urlopen, Request
 import random, time, urllib.request,json
 
+def isrealword(guess: str) -> bool:
 
+   link = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
+   url = link + guess
+   try:
+      with urlopen(Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'})) as response:
+         return response.status == 200
+   except HTTPError as err:
+      if err.code == 404:
+         return False
+      else:
+         print("somethings gone horribly wrong")
+         raise
+      
+def charactercheck(playerguess: str) -> bool:
+  for i in playerguess:
+        if i not in alphabet:
+          return False
+  return True
 
-
-
+wordcheck = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 attempts = 0
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 list = ["_","_","_","_","_"]
@@ -24,7 +42,7 @@ with urllib.request.urlopen('https://random-word-api.herokuapp.com/word?length=5
 
 #parse word from json file to make readable
 word = json.loads(wordpull)[0]
-
+word = "zymes"
 print("how to play:")
 print("------------------------------------------------------")
 print("guess the 5 letter word in 6 attempts or under")
@@ -56,33 +74,31 @@ while attempts != 6:
     playerguess = input("guess the word (5 letters): ")
     playerguess = playerguess.lower()
     print("")
-    
-    valid = True
 
 #backdoor to find word while testing
     if playerguess == "joshua":
       print(word)
       continue
 
-
-
 #length check
 
     if len(playerguess) != 5:
-      valid = False
+      print("not 5 letters")
+      continue
     
 #type check
 
-    for i in playerguess:
-      if i not in alphabet:
-        valid = False
-      
-    if valid == False:
-      print("invalid input, try again")
-      print("")
+    if not charactercheck(playerguess):
+      print("invalid characters")
+      continue
 
-    else:
-      break
+    if playerguess != word:
+      if not isrealword(playerguess) :
+        print("please enter a real word")
+        time.sleep(1)
+        continue
+
+    break
   
   count = 0
   statuscheck = [["","","","",""], #word goes here
@@ -131,7 +147,7 @@ while attempts != 6:
     if statuscheck[3][i] == "0":
       list[i] = "_"
   
-  
+  #print list
   if len(wrongletters) == 0:
       print(list, "currently known wrong letters: none")
 
