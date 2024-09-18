@@ -1,5 +1,5 @@
 
-#import about 50 different libraries with extrenely names, each for seperate cases
+#import about 50 different libraries with extremely similar names, each for seperate cases
 from urllib.error import HTTPError
 from urllib.request import urlopen, Request
 import random, time, urllib.request,json
@@ -101,7 +101,7 @@ while attempts != 6:
     if playerguess != word:
       if not isrealword(playerguess) :
         print("please enter a real word")
-        
+
         # 1 second wait to prevent spam requests to the api, leading to getting blocked
         time.sleep(1)
         print("")
